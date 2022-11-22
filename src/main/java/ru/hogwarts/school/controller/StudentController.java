@@ -7,7 +7,10 @@ import ru.hogwarts.school.record.StudentRecord;
 import ru.hogwarts.school.service.StudentService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Collection;
+import java.util.List;
 
 
 @RestController
@@ -56,18 +59,18 @@ public class StudentController {
         return studentService.findFacultyByStudent(id);
     }
 
-    @GetMapping("/count")
-    public ResponseEntity<Integer> getStudentCount(){
-        return ResponseEntity.ok(studentService.getStudentCount());
+    @GetMapping("/totalCount")
+    public int totalCountOfStudents() {
+        return studentService.totalCountOfStudents();
     }
 
-    @GetMapping("/average-age")
-    public ResponseEntity<Double> getStudentsAverageAge(){
-        return ResponseEntity.ok(studentService.getStudentsAverageAge());
+    @GetMapping("/averageAge")
+    public double averageAgeOfStudents() {
+        return studentService.averageAgeOfStudents();
     }
 
-    @GetMapping("/last-five")
-    public ResponseEntity<Collection<StudentRecord>> getLastFiveStudents(){
-        return ResponseEntity.ok(studentService.getLastFiveStudents());
+    @GetMapping("/lastFiveStudents")
+    public List<StudentRecord> lastFiveStudents(@RequestParam @Min(1) @Max(10) int count){
+        return studentService.lastFiveStudents(count);
     }
 }
